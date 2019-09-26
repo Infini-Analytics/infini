@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  server:
+    build: ./server
+    expose:
+      - ${API_SERVER_PORT}
+    environment:
+      API_SERVER_PORT: ${API_SERVER_PORT}
+      MEGAWISE_HOST: ${MEGAWISE_HOST}
+      SESSION_EXPIRES: ${SESSION_EXPIRES}
+      MEGAWISE_USER: ${MEGAWISE_USER}
+      MEGAWISE_PWD: ${MEGAWISE_PWD}
+      MEGAWISE_DB: ${MEGAWISE_DB}
+      MEGAWISE_PORT: ${MEGAWISE_PORT}
+      PG_HOST: ${PG_HOST}
+      PG_USER: ${PG_USER}
+      PG_PWD: ${PG_PWD}
+      PG_DB: ${PG_DB}
+      PG_PORT: ${PG_PORT}
+    ports:
+      - ${API_SERVER_PORT}:${API_SERVER_PORT}
+
+  client:
+    build:
+      context: ./client
+      args: 
+        - REACT_APP_API_ENDPOINT 
+    expose:
+      - ${LOCAL_PORT}
+    ports:
+      - ${LOCAL_PORT}:${LOCAL_PORT}
+    links:
+      - server
