@@ -13,11 +13,6 @@ services:
       MEGAWISE_PWD: ${MEGAWISE_PWD}
       MEGAWISE_DB: ${MEGAWISE_DB}
       MEGAWISE_PORT: ${MEGAWISE_PORT}
-      PG_HOST: ${PG_HOST}
-      PG_USER: ${PG_USER}
-      PG_PWD: ${PG_PWD}
-      PG_DB: ${PG_DB}
-      PG_PORT: ${PG_PORT}
     ports:
       - ${API_SERVER_PORT}:${API_SERVER_PORT}
 
