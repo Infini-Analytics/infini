@@ -2,7 +2,7 @@ version: '3'
 
 services:
   server:
-    build: zilliz/infini-webserver:0.1.0-d092616
+    image: zilliz/infini-webserver:0.1.0-d092616
     expose:
       - ${API_SERVER_PORT}
     environment:
@@ -22,10 +22,7 @@ services:
       - ${API_SERVER_PORT}:${API_SERVER_PORT}
 
   client:
-    build:
-      context: zilliz/infini-webclient:0.1.0-d092616
-      args: 
-        - REACT_APP_API_ENDPOINT 
+    image: zilliz/infini-webclient:0.1.0-d092616
     expose:
       - ${LOCAL_PORT}
     ports:
