@@ -16,7 +16,8 @@ echo "magawise_tag :" $megawise_tag
 docker pull zilliz/megawise:$megawise_tag
 
 if [ -d ${dir_location} ];then
-	rm -rf $dir_location
+	echo "the catelog has already existed"
+    exit 0
 fi
 
 mkdir $dir_location
