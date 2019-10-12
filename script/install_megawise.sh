@@ -65,6 +65,7 @@ docker run --gpus all --shm-size 4294967296 \
  -v ${dir_location}/conf:/megawise/conf  \
  -v ${dir_location}/data:/megawise/data  \
  -v ${dir_location}/server_data:/megawise/server_data  \
+ -v $HOME/.nv:/home/megawise/.nv  \
  -v /tmp:/tmp  \
  -p 5433:5432  \
  -d  \
@@ -88,8 +89,12 @@ container_id=$(docker ps |grep ${megawise_image_id} |awk '{printf "%s\n",$1}')
 
 echo "State: copying example data into meagwise.......please wait....."
 docker exec -u megawise -it ${container_id} /tmp/data_import.sh
-
-echo "State: Successfully installed MegaWise and imported test data"
+if [ $? -ne 0 ]; then
+    echo "Error: import test data failed, you do it by hand using data_import.sh!"
+    exit 0
+else
+	echo "State: Successfully installed MegaWise and imported test data"
+fi
 echo "listen_addresses = '*'" >> ${dir_location}/data/postgresql.conf
 echo "host    all             all             0.0.0.0/0          password" >> ${dir_location}/data/pg_hba.conf
 
