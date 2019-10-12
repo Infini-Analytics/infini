@@ -7,14 +7,24 @@ while [ $IS_RUN -le 1 ];do
 	IS_RUN=$(ps ax | grep "megawise_server" | wc -l)
 done
 
-IS_RUN=$(ps ax | grep "postgres" | wc -l)
-while [ $IS_RUN -le 1 ];do
+
+IS_RUN=$(ls /megawise/data/ | grep "postmaster.pid" | wc -l)
+while [ $IS_RUN -le 0 ];do
 	sleep 1
-	IS_RUN=$(ps ax | grep "postgres" | wc -l)
+	IS_RUN=$(ls /megawise/data/ | grep "postmaster.pid" | wc -l)
 done
 
 sleep 1
 
+process_id=$(sed -n '1p' /megawise/data/postmaster.pid)
+
+IS_RUN=$(ps ax | grep postgres |grep ${process_id} | wc -l)
+while [ $IS_RUN -le 0 ];do
+	sleep 1
+	IS_RUN=$(ps ax | grep postgres |grep ${process_id} | wc -l)
+done
+
+sleep 5
 /megawise/bin/psql postgres <<EOF
 CREATE USER zilliz WITH PASSWORD 'zilliz';
 grant all privileges on database postgres to zilliz;

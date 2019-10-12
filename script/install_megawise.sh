@@ -49,7 +49,12 @@ wget -P ${dir_location}/conf https://raw.githubusercontent.com/Infini-Analytics/
 wget -P ${dir_location}/conf https://raw.githubusercontent.com/Infini-Analytics/infini/master/config/db/megawise_config_template.yaml
 wget -P ${dir_location}/conf https://raw.githubusercontent.com/Infini-Analytics/infini/master/config/db/render_engine.yaml
 wget -P ${dir_location}/conf https://raw.githubusercontent.com/Infini-Analytics/infini/master/config/db/scheduler_config_template.yaml
-wget -P /tmp https://raw.githubusercontent.com/Infini-Analytics/infini/master/sample_data/nyc_taxi_data.csv
+if [ -f "/tmp/nyc_taxi_data.csv" ];then
+	echo "data has already existed"
+else
+	wget -P /tmp https://raw.githubusercontent.com/Infini-Analytics/infini/master/sample_data/nyc_taxi_data.csv
+fi
+
 
 mkdir ${dir_location}/data
 mkdir ${dir_location}/server_data
