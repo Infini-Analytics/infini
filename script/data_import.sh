@@ -14,7 +14,7 @@ while [ $IS_RUN -le 0 ];do
 	IS_RUN=$(ls /megawise/data/ | grep "postmaster.pid" | wc -l)
 done
 
-sleep 1
+sleep 5
 
 process_id=$(sed -n '1p' /megawise/data/postmaster.pid)
 
@@ -24,7 +24,7 @@ while [ $IS_RUN -le 0 ];do
 	IS_RUN=$(ps ax | grep postgres |grep ${process_id} | wc -l)
 done
 
-sleep 5
+sleep 3
 /megawise/bin/psql postgres <<EOF
 CREATE USER zilliz WITH PASSWORD 'zilliz';
 grant all privileges on database postgres to zilliz;
