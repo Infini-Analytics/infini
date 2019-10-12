@@ -8,17 +8,14 @@ elif [ $# -eq 2 ];then
 	megawise_tag=$2
 else
 	echo "Error: please use install_megawise.sh [path(required)] [megawise_tag(optional)] to run it."
-	exit -1
-fi
+docker pull zilliz/megawise:$megawise_tag
 
 if [ -d ${dir_location} ];then
 	echo "Error: file /home/zilliz/megawise already exists, please try again."
-  	exit 0
+  exit 0
 fi
 
-echo "magawise_tag :" $megawise_tag
-mkdir ${dir_location}/
-docker pull zilliz/megawise:$megawise_tag
+mkdir $dir_location
 
 if [ -d ${dir_location} ];then
     echo "Information: installation manual : ${dir_location}."
@@ -26,8 +23,6 @@ else
     echo "Error: can't create ${dir_location}, please check out the permission."
     exit -1
 fi
-
-
 
 cp data_import.sh /tmp
 megawise_image_id=$(docker images |grep "zilliz/megawise" | grep "$megawise_tag" \
@@ -37,7 +32,7 @@ echo "megawise_image_id:" $megawise_image_id
 MEGAWISE_CNT=$(docker ps | grep $megawise_image_id | wc -l)
 
 if [ $MEGAWISE_CNT -ne 0 ];then
-	echo "megawise is running..."
+	echo "Error: megawise is running, please stop it first."
 	exit 0
 fi
 
@@ -53,15 +48,11 @@ if [ -f "/tmp/nyc_taxi_data.csv" ];then
 else
 	wget -P /tmp https://raw.githubusercontent.com/Infini-Analytics/infini/master/sample_data/nyc_taxi_data.csv
 fi
-echo "Information: Configuration parameter"
-echo " 1.egawise username:        MEGAWISE_USER=zilliz"
-echo " 2.megawise password:       MEGAWISE_PWD=zilliz"
-echo " 3.megawise database name:  MEGAWISE_DB=postgres"
-echo " 4.megawise port  MEGAWISE_PORT=5433"
+echo "Information: Configuration parameter\n 1.egawise username\n  MEGAWISE_USER=zilliz\n 2.megawise password\n  MEGAWISE_PWD=zilliz\n 3.megawise database name  MEGAWISE_DB=postgres\n 4.megawise port  MEGAWISE_PORT=5433"
 
 mkdir ${dir_location}/data
 mkdir ${dir_location}/server_data
-docker run --gpus all --shm-size 17179869184 \
+docker run --gpus all --shm-size 4294967296 \
  -v ${dir_location}/conf:/megawise/conf  \
  -v ${dir_location}/data:/megawise/data  \
  -v ${dir_location}/server_data:/megawise/server_data  \
@@ -96,3 +87,4 @@ echo "host    all             all             0.0.0.0/0          password" >> ${
 docker restart ${container_id}
 
 echo "State: restart megawise successfully! Finished!"
+
