@@ -61,7 +61,7 @@ echo " 4.megawise port  MEGAWISE_PORT=5433"
 
 mkdir ${dir_location}/data
 mkdir ${dir_location}/server_data
-docker run --gpus all --shm-size 17179869184 \
+docker run --gpus all --shm-size 4294967296 \
  -v ${dir_location}/conf:/megawise/conf  \
  -v ${dir_location}/data:/megawise/data  \
  -v ${dir_location}/server_data:/megawise/server_data  \
