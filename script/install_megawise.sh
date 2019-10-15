@@ -2,7 +2,7 @@
 
 if [ $# -eq 1 ];then
 	dir_location=$1
-	megawise_tag=0.3.0-d091919-1679
+	megawise_tag=0.3.0-d101119-247
 elif [ $# -eq 2 ];then
 	dir_location=$1
 	megawise_tag=$2
@@ -57,7 +57,7 @@ echo "Information: Configuration parameter"
 echo " 1.egawise username:        MEGAWISE_USER=zilliz"
 echo " 2.megawise password:       MEGAWISE_PWD=zilliz"
 echo " 3.megawise database name:  MEGAWISE_DB=postgres"
-echo " 4.megawise port  MEGAWISE_PORT=5433"
+echo " 4.megawise port            MEGAWISE_PORT=5433"
 
 mkdir ${dir_location}/data
 mkdir ${dir_location}/server_data
