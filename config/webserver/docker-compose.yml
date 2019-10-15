@@ -2,7 +2,7 @@ version: '3'
 
 services:
   server:
-    image: zilliz/infini-webserver:0.1.0-d092616
+    image: zilliz/infini-webserver:0.1.0-d101501
     expose:
       - ${API_SERVER_PORT}
     environment:
@@ -17,7 +17,9 @@ services:
       - ${API_SERVER_PORT}:${API_SERVER_PORT}
 
   client:
-    image: zilliz/infini-webclient:0.1.0-d092616
+    image: zilliz/infini-webclient:0.1.0-d101501
+    environment:
+      API_URL: ${API_URL}
     expose:
       - ${LOCAL_PORT}
     ports:
