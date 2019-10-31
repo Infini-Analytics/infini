@@ -95,8 +95,6 @@ if [ $? -ne 0 ]; then
 else
 	echo "State: Successfully installed MegaWise and imported test data"
 fi
-echo "listen_addresses = '*'" >> ${dir_location}/data/postgresql.conf
-echo "host    all             all             0.0.0.0/0          password" >> ${dir_location}/data/pg_hba.conf
 
 docker restart ${container_id}
 
