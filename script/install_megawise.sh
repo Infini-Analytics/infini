@@ -2,7 +2,7 @@
 
 if [ $# -eq 1 ];then
 	dir_location=$1
-	megawise_tag=0.4.0
+	megawise_tag=0.4.2
 elif [ $# -eq 2 ];then
 	dir_location=$1
 	megawise_tag=$2
