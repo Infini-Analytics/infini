@@ -25,12 +25,6 @@ while [ $IS_RUN -le 0 ];do
 done
 
 sleep 3
-/megawise/bin/psql postgres <<EOF
-CREATE USER zilliz WITH PASSWORD 'zilliz';
-grant all privileges on database postgres to zilliz;
-drop extension if exists zdb_fdw;
-create extension zdb_fdw;
-EOF
 /megawise/bin/psql postgres -U zilliz <<EOF
 drop table if exists nyc_taxi;
 create table nyc_taxi(
