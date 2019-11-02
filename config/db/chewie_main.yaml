@@ -6,7 +6,7 @@ server:
     data_port: 21001
   
 log:
-    path: /tmp
+    path: /megawise/logs/chewie
     level: 0                    # optional: trace = 0, debug = 1, info = 2, warn = 3, error = 4, critical = 5, off = 6
     rotating: yes               # yes means rotated log, no means non-rotated log;
     rotating_size_limit: 64     # 64 MB, valid when rotating is yes

@@ -47,6 +47,7 @@ fi
 mkdir ${dir_location}/conf
 wget -P ${dir_location}/conf https://raw.githubusercontent.com/Infini-Analytics/infini/master/config/db/chewie_main.yaml
 wget -P ${dir_location}/conf https://raw.githubusercontent.com/Infini-Analytics/infini/master/config/db/etcd.yaml
+wget -P ${dir_location}/conf https://raw.githubusercontent.com/Infini-Analytics/infini/master/config/db/megawise_config.yaml
 wget -P ${dir_location}/conf https://raw.githubusercontent.com/Infini-Analytics/infini/master/config/db/megawise_config_template.yaml
 wget -P ${dir_location}/conf https://raw.githubusercontent.com/Infini-Analytics/infini/master/config/db/render_engine.yaml
 if [ -f "${dir_location}/raw_data/nyc_taxi_data.csv" ];then
@@ -62,7 +63,7 @@ echo " 4.megawise port            MEGAWISE_PORT=5433"
 
 mkdir ${dir_location}/data
 mkdir ${dir_location}/server_data
-docker run --runtime=nvidia --shm-size 17179869184 \
+docker run --gpus all --shm-size 17179869184 \
  -v ${dir_location}/conf:/megawise/conf  \
  -v ${dir_location}/data:/megawise/data  \
  -v ${dir_location}/raw_data:/megawise/raw_data  \
