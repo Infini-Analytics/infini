@@ -22,7 +22,7 @@ cache:  # size in GB
         partition_memory: 16
     
     gpu:
-        gpu_num: 2
+        gpu_num: 1
         physical_memory: 2 
         partition_memory: 2
 
