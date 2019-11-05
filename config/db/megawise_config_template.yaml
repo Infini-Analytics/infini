@@ -23,7 +23,7 @@ server_config:
         fetch_data_parallelism: 1
         compute_parallelism: 1
         output_parallelism: 1
-    worker_num : 2
+    worker_num : 1
     gpu:
         physical_memory: 2    # unit: GB
         partition_memory: 2   # unit: GB

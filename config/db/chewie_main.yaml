@@ -18,11 +18,11 @@ log:
 #import cache_conf
 cache:  # size in GB
     cpu:
-        physical_memory: 16
-        partition_memory: 16
+        physical_memory: 12
+        partition_memory: 12
     
     gpu:
-        gpu_num: 2
+        gpu_num: 1
         physical_memory: 2 
         partition_memory: 2
 
