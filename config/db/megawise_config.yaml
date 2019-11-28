@@ -15,7 +15,7 @@ server_config:
     rotating_number_limit: 10   # valid when rotating is yes
 
   worker_config:
-    bitcode_lib: /home/liangliu/workspace/megawise/lib
+    bitcode_lib: /megawise/lib
     precompile: true
     stage:
       build_task_context_parallelism: 1
@@ -57,7 +57,7 @@ server_config:
     print_plan_tree: false  # false by default
 
   storage_config:
-    db_path: /home/liangliu/workspace/megawise/server_data
+    db_path: /megawise/server_data
     row_per_fragment: 10000000
     storage_type: 0         # 0:storage_compress, 1:storage_native
     file_open_limit: 768    # file open limit when loading data from disk, the value must less than system limit (ulimit -n)
@@ -92,7 +92,7 @@ server_config:
 
 postgre:
   log:
-    log_path: /home/liangliu/workspace/megawise/data/logs
+    log_path: /megawise/data/logs
   result:
     print_limit: -1    # -1 return all result
     cache_limit: 0     # 0 no cache, otherwise the system will cache result according to query statement
@@ -128,7 +128,7 @@ schedule:
   mem_policy: 3             # optional: mpol_default(0), mpol_preferred(1), mpol_bind(2), mpol_interleave(3)
 
   worker:
-    bitcode_lib: /home/liangliu/workspace/megawise/lib
+    bitcode_lib: /megawise/lib
     precompile: true
     stage:
       build_task_context_parallelism: 1
@@ -168,7 +168,7 @@ render_engine:
   write_image: false          # true: write image to path = "/tmp", false: don't write.
 
 string_engine:
-  db_path: /home/liangliu/workspace/megawise/server_data
+  db_path: /megawise/server_data
   dict:
     cache_size: 21474836480  # 20G
     split_threshold: 1000000
