@@ -47,6 +47,7 @@ wget -P ${dir_location}/conf https://raw.githubusercontent.com/Infini-Analytics/
 wget -P ${dir_location}/conf https://raw.githubusercontent.com/Infini-Analytics/infini/master/config/db/megawise_config_template.yaml
 wget -P ${dir_location}/conf https://raw.githubusercontent.com/Infini-Analytics/infini/master/config/db/etcd_config_template.yaml
 wget -P ${dir_location}/conf https://raw.githubusercontent.com/Infini-Analytics/infini/master/config/db/etcd_config.yaml
+wget -P ${dir_location}/conf https://raw.githubusercontent.com/Infini-Analytics/infini/master/config/db/megawise_config.yaml
 
 
 if [ -f "/tmp/nyc_taxi_data.csv" ];then
@@ -71,10 +72,9 @@ docker run --gpus all --shm-size 4294967296 \
  -v ${dir_location}/server_data:/megawise/server_data  \
  -v /home/$USER/.nv:/home/megawise/.nv \
  -v /tmp:/tmp  \
+ -d \
  -p 5433:5432  \
  ${megawise_image_id}
-
-exit 0
 
 IS_RUN=$(docker ps | grep ${megawise_image_id} | wc -l)
 TRY_CNT=0
