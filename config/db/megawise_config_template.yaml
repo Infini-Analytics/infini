@@ -1,3 +1,4 @@
+#!=> old config
 server_config:
   server_type: standalone
   address: 127.0.0.1
@@ -7,7 +8,7 @@ server_config:
   mem_policy: 3             # optional: mpol_default(0), mpol_preferred(1), mpol_bind(2), mpol_interleave(3)
 
   log_config:
-    path: /megawise/logs
+    path: @log_path@
     level: 2                    # optional: trace = 0, debug = 1, info = 2, warn = 3, error = 4, critical = 5, off = 6
     rotating: yes               # yes means rotated log, no means non-rotated log;
     rotating_size_limit: 64     # 64 MB, valid when rotating is yes
@@ -17,16 +18,16 @@ server_config:
     bitcode_lib: @bitcode_lib@
     precompile: true
     stage:
-        build_task_context_parallelism: 1
-        fetch_meta_parallelism: 1
-        compile_parallelism: 1
-        fetch_data_parallelism: 1
-        compute_parallelism: 1
-        output_parallelism: 1
-    worker_num : 1
+      build_task_context_parallelism: 1
+      fetch_meta_parallelism: 1
+      compile_parallelism: 1
+      fetch_data_parallelism: 1
+      compute_parallelism: 1
+      output_parallelism: 1
+    worker_num : 2
     gpu:
-        physical_memory: 2    # unit: GB
-        partition_memory: 2   # unit: GB
+      physical_memory: 2    # unit: GB
+      partition_memory: 2   # unit: GB
     cuda_profile_query_cnt: -1 #-1 means don't profile, positive integer means the number of querys to profile, other value invalid
 
   result_config:
@@ -46,7 +47,7 @@ server_config:
       init_num_of_buckets: 16384    # 0x4000 will not be recognized
     agg_config:
       direct_hash:
-          max_range: 10000000
+        max_range: 10000000
       key_less:
         max_range: 10000
       non_key_less:
@@ -65,7 +66,7 @@ server_config:
     hdfs_enabled: false
     hdfs_host: ""
     hdfs_port: 0
-    text_column_keygen: tree    # keygen method for string, optional: tree, hash, sequence
+    text_column_keygen: hash    # keygen method for string, optional: tree, hash, sequence
     text_group_policy: column   # auto assign group name for undefined text column, optional: database, table ,column
 
   cache_config:
@@ -84,3 +85,108 @@ server_config:
       bucket_num: 1999993      # prime number is a good choice
       bucket_size: 500         # make sure that each string is shorter than bucket_size-5
       file_size: 104857600     # 100M
+#<= old config!
+
+
+#-------------------------------------------new configuration items---------------------------------------------------------------------------------
+
+postgre:
+  log:
+    log_path: @pg_log_path@
+  result:
+    print_limit: -1    # -1 return all result
+    cache_limit: 0     # 0 no cache, otherwise the system will cache result according to query statement
+    date_style: postgres      # optional: iso, sql, postgres, german
+    date_order: mdy           # only affect postgres and sql style, optional:dmy, ymd, mdy
+    decimal_scale: 2          # number count of right of decimal point
+    concurrent_threads: -1    # number of threads process result, -1 or 0 means auto
+
+  optimizer:
+    enable_orca: false  # false by default
+    hashjoin:
+      dhashjoin:
+        enable_inner_join: false    # false by default
+        enable_left_join: false     # true by default
+      init_num_of_buckets: 16384    # 0x4000 will not be recognized
+    agg:
+      direct_hash:
+        max_range: 10000000
+      key_less:
+        max_range: 10000
+      non_key_less:
+        hash_factor: 0.3
+        bucket_time_out: 100
+        num_of_buckets_per_table: 16384    # 0x40 will not be recognized
+    print_plan_tree: false  # false by default
+
+schedule:
+  server_type: standalone
+  address: 127.0.0.1
+  local_port: 21001         #port for internal usage
+  remote_port: 21002        #port for remote access
+  remote_protocol: json     #optional: binary, compact, json, debug
+  mem_policy: 3             # optional: mpol_default(0), mpol_preferred(1), mpol_bind(2), mpol_interleave(3)
+
+  worker:
+    bitcode_lib: @bitcode_lib@
+    precompile: true
+    stage:
+      build_task_context_parallelism: 1
+      fetch_meta_parallelism: 1
+      compile_parallelism: 1
+      fetch_data_parallelism: 1
+      compute_parallelism: 1
+      output_parallelism: 1
+
+cosmo:
+  partition_id: 0
+  tablet:
+    fragment_size: 1000000
+    num_rows: 5000000
+
+storage:
+  date_style: postgres      # optional: iso, sql, german, xsd, postgres
+  date_order: ymd           # only affect postgres and sql style, optional:dmy, ymd, mdy
+  csv:
+    split_size: 1073741824  #1G, byte number of every split file
+  kudu:
+    address: 127.0.0.1:7051
+
+gems:
+  address: 127.0.0.1:2379
+
+chewie:
+  server:
+    address: 127.0.0.1
+    partition_port: 50052
+    data_port: 50053
+  # which device will be selected if multi victim exist
+  advice_copy_from: cpu           # options: cpu / gpu
+
+render_engine:
+  main_memory_size:  2 # size in GB
+  write_image: false          # true: write image to path = "/tmp", false: don't write.
+
+string_engine:
+  db_path: @db_path@
+  dict:
+    cache_size: 21474836480  # 20G
+    split_threshold: 1000000
+    split_each: 100000
+    small_scale_num: 4000    # try not to use the temporary id
+  hash:
+    cache_size: 21474836480  # 20G
+    bucket_num: 1999993      # prime number is a good choice
+    bucket_size: 500         # make sure that each string is shorter than bucket_size-5
+    file_size: 104857600     # 100M
+
+log:
+  path: @log_path@
+  level: 2                    # optional: trace = 0, debug = 1, info = 2, warn = 3, error = 4, critical = 5, off = 6
+  rotating: yes               # yes means rotated log, no means non-rotated log;
+  rotating_size_limit: 64     # 64 MB, valid when rotating is yes
+  rotating_number_limit: 10   # valid when rotating is yes
+
+megawise:
+  server:
+    address: 0.0.0.0:60000

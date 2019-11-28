@@ -1,0 +1,9 @@
+memory:  
+  cpu:
+    physical_memory: 16 # size in GB
+    partition_memory: 16 # size in GB
+  
+  gpu:
+    num: 2
+    physical_memory: 2  # size in GB
+    partition_memory: 2 # size in GB
